@@ -1,6 +1,6 @@
 # pip install requests
 # pip install deep_translator
-# versão python 3.10.3
+# versão python 3.12.3
 
 from deep_translator import GoogleTranslator
 import requests
