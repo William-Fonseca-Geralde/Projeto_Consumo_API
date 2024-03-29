@@ -6,7 +6,7 @@
 from deep_translator import GoogleTranslator
 import tkinter as tk
 from tkinter import ttk
-from PIL import ImageTk,Image
+from PIL import ImageTk, Image
 import requests
 
 class CountryLanguage:
@@ -28,7 +28,6 @@ def mostrarDados():
   paises = CountryLanguage(lingua)
   dados = paises.consumirAPI()
 
-
 janela = tk.Tk()
 janela.title("Projeto Consumo de API")
 janela.configure(bg="#f0f0f0")
@@ -37,22 +36,25 @@ frame = ttk.Frame(janela)
 frame.pack()
 
 texto = tk.LabelFrame(frame, text="Digite o idioma abaixo", fg= "black")
-texto.grid(row=0, column=0, padx=30, pady=15)
+texto.grid(row=0, column=0, padx=5, pady=5)
 
-imagem = ImageTk.PhotoImage(file="mundo.png")
+img = Image.open("mundo.png")
+nv_img = img.resize(size=(200, 75))
+
+imagem = ImageTk.PhotoImage(nv_img)
 imgFrame = tk.Label(frame, image=imagem)
 imgFrame.grid(row=1, column=0, padx=5, pady=5)
 
 resposta = ttk.Entry(texto)
 resposta.insert(0, "Idioma...")
 resposta.bind("<FocusIn>", lambda e: resposta.delete('0', 'end'))
-resposta.grid(row=0, column=0, padx=5, pady=(30, 5), sticky='ew')
+resposta.grid(row=0, column=0, padx=5, pady=5, sticky='ew')
 
 botao = ttk.Button(texto, text="Enviar".upper())
 botao.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 
 dadosFrame = ttk.Frame(frame)
-dadosFrame.grid(row=1, column=1, padx=(0, 20), pady=10)
+dadosFrame.grid(row=0, column=1, padx=(0, 20), pady=10)
 scrollDados = ttk.Scrollbar(dadosFrame)
 scrollDados.pack(side="right", fill="y")
 
