@@ -3,39 +3,66 @@
 # versão python 3.12.3
 
 from deep_translator import GoogleTranslator
+import tkinter as tk
+from tkinter import ttk
+from PIL import ImageTk,Image
 import requests
 
-def consumirAPI(url: str):
-  response = requests.get(url)
-  dado = response.json()
-  if response.status_code == 200:
-    return dado
+class CountryLanguage:
+  def __init__(self, lang):
+    self.tradutor = GoogleTranslator(source= 'pt', target= 'en')
+    self.lang = lang
+    self.url = f"https://restcountries.com/v3.1/lang/{self.tradutor.translate(self.lang)}"
+    
+  def consumirAPI(self):
+    response = requests.get(self.url)
+    if response.status_code == 200:
+      dado = response.json()
+      return dado
+    else:
+      return "ERRO"
 
-print("*********Descobrir Países*********")
-print("1 - Pelo idioma oficial;")
-print("2 - Pela região onde fica;")
-print("3 - Pela subregião onde fica.")
-opcao = int(input("Digite sua opção: "))
+def mostrarDados():
+  lingua = ""
+  paises = CountryLanguage(lingua)
+  dados = paises.consumirAPI()
 
-tradutor = GoogleTranslator(source= 'pt', target= 'en')
 
-match opcao:
-  case 1:
-    print("Descubra todos os países de acordo com seu idioma oficial")
-    lingua = input("Escreva o nome do idioma: ")
-    dado = consumirAPI(f"https://restcountries.com/v3.1/lang/{tradutor.translate(lingua)}")
-  case 2:
-    print("Descubra quais países ficam na região")
-    regiao = input("Escreva o nome da região: ")
-    dado = consumirAPI(f"https://restcountries.com/v3.1/region/{tradutor.translate(regiao)}")
-  case 3:
-    print("Descubra quais países ficam na subregião")
-    subregiao = input("Escreva o nome da subregião: ")
-    dado = consumirAPI(f"https://restcountries.com/v3.1/subregion/{tradutor.translate(subregiao)}")
-  case _:
-    print("Digite os números pedidos acima")
+janela = tk.Tk()
+janela.title("Projeto Consumo de API")
+janela.configure(bg="#f0f0f0")
 
-tradutor = GoogleTranslator(source= 'en', target= 'pt')
+frame = ttk.Frame(janela)
+frame.pack()
 
-for i in dado:
-  print("- ",i['name']['common'])
+texto = tk.LabelFrame(frame, text="Digite o idioma abaixo", fg= "black")
+texto.grid(row=0, column=0, padx=30, pady=15)
+
+imagem = ImageTk.PhotoImage(file="mundo.png")
+imgFrame = tk.Label(frame, image=imagem)
+imgFrame.grid(row=1, column=0, padx=5, pady=5)
+
+resposta = ttk.Entry(texto)
+resposta.insert(0, "Idioma...")
+resposta.bind("<FocusIn>", lambda e: resposta.delete('0', 'end'))
+resposta.grid(row=0, column=0, padx=5, pady=(30, 5), sticky='ew')
+
+botao = ttk.Button(texto, text="Enviar".upper())
+botao.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
+
+dadosFrame = ttk.Frame(frame)
+dadosFrame.grid(row=1, column=1, padx=(0, 20), pady=10)
+scrollDados = ttk.Scrollbar(dadosFrame)
+scrollDados.pack(side="right", fill="y")
+
+colunas = ("Nome do país", "Nome Oficial", "Capital")
+dadosView = ttk.Treeview(dadosFrame, show="headings", yscrollcommand=scrollDados.set, columns=colunas, height=15)
+
+dadosView.column("Nome do país", width=100)
+dadosView.column("Nome Oficial", width=150)
+dadosView.column("Capital", width=150)
+dadosView.pack()
+scrollDados.config(command=dadosView.yview)
+
+
+janela.mainloop()
