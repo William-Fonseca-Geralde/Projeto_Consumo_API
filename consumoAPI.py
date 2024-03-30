@@ -1,8 +1,3 @@
-# pip install requests
-# pip install deep_translator
-# pip install pillow
-# versão python 3.12.3
-
 from deep_translator import GoogleTranslator
 import tkinter as tk
 from tkinter import ttk
