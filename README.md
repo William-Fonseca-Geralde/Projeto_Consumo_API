@@ -15,7 +15,18 @@ Será mostrado o nome do país, seu nome oficial e sua capital.
 
 ## Requisitos
 
- - O projeto foi feito no Python 3.12.2; 
+ - Você deve ter o Python 3.12.2 instalado; 
  - instalar as dependências com o código `pip install -r requirements.txt`
 
 ## Como funciona
+
+### Sobre o arquivo
+
+ - Deve-se baixar o repositório;
+ - Abri-lo num editor de código (não foi feito teste em outro editor além do Visual Studio Code);
+ - Se for usado o VScode, deve estar na versão 1.87.2 com as extensões do python recomendadas pela Microsoft;
+ - Executar o código
+
+### Sobre o programa
+
+No programa tem onde deve ser digitado o idioma, ao seu lado tem o botão de enviar o idioma para ser mostrado na lista abaixo os países com o idioma que foi escrito
